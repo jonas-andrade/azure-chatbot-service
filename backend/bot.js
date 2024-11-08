@@ -1,29 +1,36 @@
-const { OpenAI } = require("openai");
-require('dotenv').config();
+const { AzureOpenAI } = require('openai');
+require('dotenv/config');
 
-// Inicializando o cliente OpenAI com a chave da API
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // A chave da API é carregada do arquivo .env
-});
 
-// Função para gerar a resposta com base na mensagem do usuário
-async function generateResponse(userMessage) {
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
+const apiKey = process.env["AZURE_OPENAI_API_KEY"];
+const apiVersion = "2024-04-01-preview";
+const deployment = "gpt-35-turbo";
+
+
+
+async function generateResponse(prompt) {
   try {
-    // Enviando a mensagem para o GPT-3.5
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", // Usando o modelo GPT-3.5
-      messages: [
-        { role: "system", content: "Você é um assistente amigável e inteligente." }, // Contexto básico do chatbot
-        { role: "user", content: userMessage }, // A mensagem que o usuário envia
-      ],
+    const client = new AzureOpenAI({ endpoint, apiKey, apiVersion, deployment });
+
+    const result = await client.completions.create({
+      prompt: [prompt],
+      model: deployment,
+      max_tokens: 100,
+      temperature: 0.7,  // Definir a aleatoriedade das respostas
+      frequency_penalty: 0, 
+      presence_penalty: 0,
+      top_p: 1.0,
+      stop: null
     });
 
-    // Retornando a resposta gerada pelo modelo
-    return response.choices[0].message.content;
+    return result.choices[0].text.trim();
   } catch (error) {
     console.error("Erro ao gerar resposta:", error);
-    return "Desculpe, houve um problema ao processar sua mensagem.";
+    throw new Error("Erro ao processar a resposta do bot.");
   }
 }
 
-module.exports = { generateResponse };
+module.exports = {
+  generateResponse
+};
