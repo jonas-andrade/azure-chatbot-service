@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { analyzeUserMessage, generateResponse } = require('./bot'); // Importando as funções
+const { generateResponse } = require('./bot'); // Função que gera respostas com OpenAI
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
 
-// Endpoint para processar a mensagem do usuário
+// Endpoint para receber as mensagens dos usuários
 app.post('/chat', async (req, res) => {
   const userMessage = req.body.message;
 
@@ -15,21 +15,16 @@ app.post('/chat', async (req, res) => {
     return res.status(400).json({ error: "Mensagem não recebida!" });
   }
 
-  // Analisando o sentimento da mensagem do usuário
-  const analysisResult = await analyzeUserMessage(userMessage);
-
-  // Gerando a resposta com base no sentimento
-  const botResponse = generateResponse(analysisResult.sentiment);
-
-  // Respondendo ao usuário com uma resposta aleatória do grupo de respostas
-  const randomResponse = botResponse[Math.floor(Math.random() * botResponse.length)];
-
-  res.json({
-    sentiment: analysisResult.sentiment,
-    message: randomResponse,
-  });
+  try {
+    const botResponse = await generateResponse(userMessage);
+    res.json({ message: botResponse });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao processar a mensagem." });
+  }
 });
 
+// Iniciando o servidor na porta 3000
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });

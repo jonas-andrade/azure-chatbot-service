@@ -1,60 +1,29 @@
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+const { OpenAI } = require("openai");
 require('dotenv').config();
 
-const endpoint = process.env.ENDPOINT;
-const apiKey = process.env.APIKEY;
-const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+// Inicializando o cliente OpenAI com a chave da API
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // A chave da API é carregada do arquivo .env
+});
 
-async function analyzeUserMessage(userMessage) {
+// Função para gerar a resposta com base na mensagem do usuário
+async function generateResponse(userMessage) {
   try {
-    // Analisando o sentimento da mensagem
-    const [result] = await client.analyzeSentiment([userMessage]);
+    // Enviando a mensagem para o GPT-3.5
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo", // Usando o modelo GPT-3.5
+      messages: [
+        { role: "system", content: "Você é um assistente amigável e inteligente." }, // Contexto básico do chatbot
+        { role: "user", content: userMessage }, // A mensagem que o usuário envia
+      ],
+    });
 
-    return result;
+    // Retornando a resposta gerada pelo modelo
+    return response.choices[0].message.content;
   } catch (error) {
-    console.error("Erro ao analisar a mensagem:", error);
-    return { sentiment: "erro", text: "Desculpe, houve um problema ao processar sua mensagem." };
+    console.error("Erro ao gerar resposta:", error);
+    return "Desculpe, houve um problema ao processar sua mensagem.";
   }
 }
 
-function generateResponse(sentiment) {
-  switch (sentiment) {
-    case 'positive':
-      return [
-        "Que ótimo que você está se sentindo bem! Como posso ajudar ainda mais?",
-        "Fico feliz em saber que está positivo! Posso ajudar com algo?",
-        "Isso é maravilhoso! Se precisar de algo, estarei por aqui.",
-        "Que bom! Qualquer coisa, estou aqui para ajudar."
-      ];
-
-    case 'negative':
-      return [
-        "Sinto muito por você estar se sentindo assim. O que posso fazer para melhorar seu dia?",
-        "Entendo, estou aqui para ajudar. O que posso fazer por você?",
-        "Lamento que esteja passando por isso. Estou à disposição se precisar conversar.",
-        "Espero que as coisas melhorem logo! Me avise se eu puder ajudar de alguma forma."
-      ];
-
-    case 'neutral':
-      return [
-        "Obrigado por compartilhar. Como posso ser útil para você?",
-        "Entendido. O que posso fazer por você hoje?",
-        "Ok! Como posso ajudar a tornar seu dia melhor?",
-        "Estou aqui para ajudar! O que posso fazer por você?"
-      ];
-
-    case 'erro':
-      return [
-        "Desculpe, houve um problema ao processar sua mensagem. Tente novamente mais tarde.",
-        "Algo deu errado. Por favor, tente de novo mais tarde.",
-        "Houve um erro ao processar sua mensagem. Desculpe pela inconveniência.",
-        "Desculpe! Estou tendo dificuldades em entender sua mensagem agora. Tente novamente."
-      ];
-
-    default:
-      return ["Eu não consegui entender o sentimento. Pode me enviar algo mais claro?"];
-  }
-}
-
-// Exportando a função que analisa o sentimento da mensagem do usuário
-module.exports = { analyzeUserMessage, generateResponse };
+module.exports = { generateResponse };
