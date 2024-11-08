@@ -7,8 +7,6 @@ const apiKey = process.env["AZURE_OPENAI_API_KEY"];
 const apiVersion = "2024-04-01-preview";
 const deployment = "gpt-35-turbo";
 
-
-
 async function generateResponse(prompt) {
   try {
     const client = new AzureOpenAI({ endpoint, apiKey, apiVersion, deployment });
