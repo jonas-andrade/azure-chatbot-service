@@ -1,6 +1,6 @@
 # Chatbot com Transtorno de Personalidade - Mr. Robot & Elliot 
 
-![Mr. Robot Logo](frontend/src/assets/microsoft-azure-logo.png)
+![Mr. Robot Logo](frontend/src/assets/Mr-robot.png)
 
 Este projeto é um **chatbot** inovador desenvolvido com base nas duas personalidades do personagem **Mr. Robot** e **Elliot Alderson**, da aclamada série de TV. O bot alterna entre respostas agressivas e impacientes (como **Mr. Robot**) e respostas introspectivas e filosóficas (como **Elliot Alderson**), dependendo do tom e contexto da interação. Utilizando as poderosas capacidades de **Inteligência Artificial**, **Machine Learning** e a **Azure AI**, este projeto oferece uma experiência de conversa dinâmica e imersiva.
 
