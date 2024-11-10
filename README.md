@@ -29,7 +29,7 @@ Veja o vídeo abaixo para uma demonstração do funcionamento do chatbot, onde e
 
 [![Demonstrativo do Chatbot - Mr. Robot & Elliot Alderson](frontend/src/assets/img-demo.png)](https://youtu.be/Qj2lkqfoFfQ)
 
-**Nota**: 00.4s demo.
+**Nota**: clique na imagem para abrir o link/youtube.
 
 ## Como Usar
 
