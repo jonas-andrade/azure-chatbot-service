@@ -1,4 +1,5 @@
-# Chatbot com Transtorno de Personalidade - Mr. Robot & Elliot 
+# Chatbot com Azure Openai
+
 
 ![Mr. Robot Logo](frontend/src/assets/Mr-robot.png)
 
