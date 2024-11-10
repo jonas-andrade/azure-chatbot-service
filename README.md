@@ -42,3 +42,15 @@ Veja o vídeo abaixo para uma demonstração do funcionamento do chatbot, onde e
 1. Clone este repositório para sua máquina local:
    ```bash
    git clone https://github.com/jonas-andrade/azure-chatbot-service
+2. Instalar Dependências
+   ```bash
+   cd azure-chatbot-service/
+   npm install
+3. Configurar o Ambiente Azure
+    ```bash
+    AZURE_BOT_CHANNEL_SECRET=****
+   AZURE_COGNITIVE_SERVICES_KEY=****
+4. Executar o Serviço Localmente
+   ```bash
+   npm start
+
