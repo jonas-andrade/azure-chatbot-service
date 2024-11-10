@@ -25,7 +25,7 @@ Este chatbot é alimentado por **Azure OpenAI**, uma API baseada em **Cloud Comp
 
 ## Demonstração
 
-Veja o vídeo abaixo para uma demonstração do funcionamento do chatbot, onde ele alterna entre as personalidades **Mr. Robot** e **Elliot Alderson**:
+Veja o vídeo abaixo para uma demonstração do funcionamento do chatbot, onde ele alterna entre as personalidades **Mr. Robot** e **Elliot**:
 
 [![Demonstrativo do Chatbot - Mr. Robot & Elliot Alderson](frontend/src/assets/img-demo.png)](https://youtu.be/Qj2lkqfoFfQ)
 
