@@ -1,4 +1,4 @@
-# Chatbot com Azure Openai
+# Chatbot:  Azure Service Cloud - OpenAI API
 
 
 ![Mr. Robot Logo](frontend/src/assets/Mr-robot.png)
