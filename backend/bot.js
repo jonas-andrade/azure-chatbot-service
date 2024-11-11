@@ -19,7 +19,7 @@ async function generateResponse(userPrompt) {
     const client = new AzureOpenAI({ endpoint, apiKey, apiVersion, deployment });
 
     if (!randomMode) {
-      if (responseCount >= 3) {
+      if (responseCount >= 2) {
         currentPersonality = currentPersonality === elliotAldersonPersonality ? mrRobotPersonality : elliotAldersonPersonality;
         responseCount = 0; 
       }
@@ -27,7 +27,7 @@ async function generateResponse(userPrompt) {
     } else {
       currentPersonality = Math.random() < 0.5 ? elliotAldersonPersonality : mrRobotPersonality;
       randomCounter++;
-      if (randomCounter >= 2) {
+      if (randomCounter >= 1) {
         randomMode = false;
         randomCounter = 0;
         responseCount = 0;
@@ -42,8 +42,8 @@ async function generateResponse(userPrompt) {
         },
         { role: "user", content: userPrompt },
       ],
-      max_tokens: 150,
-      temperature: 0.5,
+      max_tokens: 70,
+      temperature: 0.7,
       top_p: 0.9,
       frequency_penalty: 0.7,
       presence_penalty: 0.7,
