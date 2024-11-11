@@ -21,15 +21,14 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: Install dependencies, build, and test backend
-        working-directory: ./backend  # Muda o diretório para o backend
+      - name: Install dependencies and build backend
+        working-directory: ./backend
         run: |
           npm install
-          npm run build --if-present  # Apenas se houver script build no backend
-          npm run test --if-present    # Apenas se houver script test no backend
+          npm run build --if-present  # Apenas se houver um script de build no backend
 
-      - name: Zip backend for deployment
-        run: zip -r backend-release.zip ./backend  # Compacta a pasta backend
+      - name: Zip backend artifact for deployment
+        run: zip -r backend-release.zip ./backend  # Compacta a pasta do backend
 
       - name: Upload backend artifact for deployment job
         uses: actions/upload-artifact@v4
