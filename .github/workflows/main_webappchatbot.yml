@@ -21,20 +21,21 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
+      - name: Install dependencies, build, and test backend
+        working-directory: ./backend  # Muda o diretório para o backend
         run: |
           npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm run build --if-present  # Apenas se houver script build no backend
+          npm run test --if-present    # Apenas se houver script test no backend
 
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+      - name: Zip backend for deployment
+        run: zip -r backend-release.zip ./backend  # Compacta a pasta backend
 
-      - name: Upload artifact for deployment job
+      - name: Upload backend artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: release.zip
+          name: backend-app
+          path: backend-release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,14 +47,14 @@ jobs:
       id-token: write #This is required for requesting the JWT
 
     steps:
-      - name: Download artifact from build job
+      - name: Download backend artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: node-app
+          name: backend-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-      
+      - name: Unzip backend artifact
+        run: unzip backend-release.zip -d ./backend
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -65,7 +66,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'webappchatbot'
+          app-name: 'webappchatbot-backend'  # Atualize com o nome do seu app de backend
           slot-name: 'Production'
-          package: .
-          
+          package: ./backend  # A pasta que contém o código do seu backend
