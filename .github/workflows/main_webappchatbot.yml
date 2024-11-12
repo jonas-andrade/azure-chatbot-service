@@ -57,9 +57,9 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          auth-type: 'service-principal'  # Usando autenticação via Service Principal
+          auth-type: 'service-principal'
 
-      # Diagnóstico para verificar a autenticação
+    
       - name: Verify Azure Authentication
         run: |
           az account show
@@ -69,6 +69,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'webappchatbot'  # Nome da sua Azure Web App
-          slot-name: 'Production'    # Slot de produção, altere se necessário
+          app-name: 'webappchatbot' 
+          slot-name: 'Production' 
           package: ./backend
