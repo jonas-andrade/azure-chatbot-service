@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'webappchatbot'
           slot-name: 'Production'
-          package: ./release.zip
+          package: ./backend
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9491AFEACD1149D09317909060773901 }}
