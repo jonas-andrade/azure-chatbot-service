@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - webappchatbot
 
 on:
@@ -25,7 +22,7 @@ jobs:
         working-directory: ./backend
         run: |
           npm install
-          npm run build --if-present  # Executa script de build, se presente no backend
+          npm run build --if-present  # Apenas se houver um script de build no backend
 
       - name: Zip backend artifact for deployment
         run: zip -r backend-release.zip ./backend  # Compacta a pasta do backend
@@ -43,7 +40,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write # Necessário para solicitar o JWT
+      id-token: write # This is required for requesting the JWT
 
     steps:
       - name: Download backend artifact from build job
@@ -60,6 +57,7 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+          client-secret: ${{ secrets.AZUREAPPSERVICE_CLIENTSECRET }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -67,4 +65,4 @@ jobs:
         with:
           app-name: 'webappchatbot'
           slot-name: 'Production'
-          package: backend-release.zip 
+          package: ./backend
