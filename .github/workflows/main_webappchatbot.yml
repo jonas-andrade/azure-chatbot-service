@@ -25,7 +25,7 @@ jobs:
         working-directory: ./backend
         run: |
           npm install
-          npm run build --if-present  # Apenas se houver um script de build no backend
+          npm run build --if-present  # Executa script de build, se presente no backend
 
       - name: Zip backend artifact for deployment
         run: zip -r backend-release.zip ./backend  # Compacta a pasta do backend
@@ -43,7 +43,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # Necessário para solicitar o JWT
 
     steps:
       - name: Download backend artifact from build job
@@ -57,9 +57,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F4C143507D764728BE162DBA981B4553 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F27BAECC665C445BB4B7F7E2B7A24F85 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_199A37AE4D1F4298BCC979DC401D4810 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -67,4 +67,4 @@ jobs:
         with:
           app-name: 'webappchatbot'
           slot-name: 'Production'
-          package: ./backend
+          package: backend-release.zip 
