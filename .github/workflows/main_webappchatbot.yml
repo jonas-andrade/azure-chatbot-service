@@ -65,6 +65,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'webappchatbot'  # Atualize com o nome do seu app de backend
+          app-name: 'webappchatbot'
           slot-name: 'Production'
-          package: ./backend  # A pasta que contém o código do seu backend
+          package: ./backend
