@@ -32,7 +32,7 @@ const Chatbot = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:3000/chat', {
+      const response = await axios.post('https://backend-azure-cwbkf7h7d7btaqba.canadacentral-01.azurewebsites.net/chat', {
         message: userMessage,
       }, { headers: { "Content-Type": "application/json" } });
 
