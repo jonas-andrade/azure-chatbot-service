@@ -25,7 +25,7 @@ jobs:
           npm run build --if-present  # Apenas se houver um script de build no backend
 
       - name: Zip backend artifact for deployment
-        run: zip -r backend-release.zip ./backend
+        run: zip -r backend-release.zip ./backend  # Compacta a pasta do backend
 
       - name: Upload backend artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -57,9 +57,9 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          auth-type: 'service-principal'  # Usando autenticação via Service Principal
 
-    
+      # Diagnóstico para verificar a autenticação
       - name: Verify Azure Authentication
         run: |
           az account show
@@ -69,6 +69,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'webappchatbot'  
-          slot-name: 'Production'
+          app-name: 'webappchatbot'  # Nome da sua Azure Web App
+          slot-name: 'Production'    # Slot de produção, altere se necessário
           package: ./backend
