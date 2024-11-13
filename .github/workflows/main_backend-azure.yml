@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - backend-azure
 
 on:
@@ -26,7 +23,6 @@ jobs:
           cd backend
           npm install
           npm run build --if-present
-
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
@@ -51,7 +47,12 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
+
+      - name: Wait for SCM container restart
+        run: |
+          echo "Aguardando 10 segundos para evitar conflito entre operações de deploy"
+          sleep 10
+          
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
